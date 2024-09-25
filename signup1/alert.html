@@ -3,75 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apply Now</title>
+  <title>Professional Theme with Bigger Logo</title>
   <style>
+    /* Overall theme styles */
     body {
-      font-family: Arial, sans-serif;
-      background-color: #ADD8E6; /* Baby blue background */
-      margin: 0;
-      height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4f8; /* Light, friendly background color */
       display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .logo {
-      width: 150px; /* Adjust the size of the logo */
-      margin-top: 20px; /* Add space from the top */
-    }
-
-    .container {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      flex-grow: 1; /* Ensures this container grows to fill the remaining space */
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: #333; /* Dark text for better readability */
     }
 
+    /* Main content container */
+    .container {
+      text-align: center;
+      background-color: #ffffff; /* White background for card effect */
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+      max-width: 400px;
+      width: 100%;
+    }
+
+    /* Bigger logo styling */
+    .logo {
+      width: 200px; /* Increased size for the logo */
+      margin-bottom: 20px; /* Space between the logo and the heading */
+    }
+
+    /* Large, friendly heading */
     h1 {
-      font-size: 48px; /* Increased header size */
-      color: #333;
+      font-size: 32px;
+      color: #007BFF; /* Friendly blue color */
       margin-bottom: 20px;
     }
 
+    /* Button styling */
     #signupBtn {
       font-size: 18px;
-      padding: 10px 20px;
-      background-color: #007BFF;
+      padding: 12px 24px;
+      background-color: #28a745; /* Professional green color */
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
     #signupBtn:hover {
-      background-color: #0056b3;
+      background-color: #218838; /* Darker green on hover */
     }
 
+    /* Message styling */
     .message {
-      font-size: 24px;
-      color: red;
+      font-size: 20px;
+      color: #dc3545; /* Alert red color */
       display: none; /* Initially hidden */
       margin-top: 20px;
+      padding: 10px;
+      background-color: #f8d7da;
+      border-radius: 5px;
+      border: 1px solid #f5c6cb;
     }
+
+    /* Footer style */
+    footer {
+      margin-top: 20px;
+      color: #777;
+      font-size: 14px;
+      text-align: center;
+    }
+
   </style>
 </head>
 <body>
-  <!-- Logo centered at the top -->
-  <img src="logo.png" alt="Logo" class="logo">
 
-  <!-- Centered container for text and button -->
+  <!-- Main content container -->
   <div class="container">
+    <!-- Bigger logo placed above the heading -->
+    <img src="logo.png" alt="Company Logo" class="logo">
+    
     <h1>Apply Now</h1>
-    <button id="signupBtn">Signup</button>
+    <button id="signupBtn">Sign Up</button>
     <p id="hackedMessage" class="message">تم تهكير هاتفك بنجاح</p>
   </div>
 
+  <!-- Footer (optional) -->
+  <footer>
+    &copy; 2024 Google. All rights reserved.
+  </footer>
+
   <script>
+    // Button click event to show message
     document.getElementById('signupBtn').addEventListener('click', function () {
-      // Display the hacked message
-      document.getElementById('hackedMessage').style.display = 'block';
+      document.getElementById('hackedMessage').style.display = 'block'; // Show the message
     });
   </script>
 </body>
