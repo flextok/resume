@@ -11,16 +11,22 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       height: 100vh;
       margin: 0;
+      position: relative;
     }
+
     .container {
       text-align: center;
     }
+
     h1 {
-      font-size: 24px;
+      font-size: 48px; /* Increased header size */
       color: #333;
+      margin-bottom: 20px;
     }
+
     #signupBtn {
       font-size: 18px;
       padding: 10px 20px;
@@ -30,13 +36,16 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
     #signupBtn:hover {
       background-color: #0056b3;
     }
+
     .message {
       font-size: 24px;
       color: red;
       display: none; /* Initially hidden */
+      margin-top: 20px;
     }
   </style>
 </head>
