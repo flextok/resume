@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply Now</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ADD8E6; /* Baby blue background */
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo {
+      width: 150px; /* Adjust the size of the logo */
+      margin-top: 20px; /* Add space from the top */
+    }
+
+    .container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1; /* Ensures this container grows to fill the remaining space */
+    }
+
+    h1 {
+      font-size: 48px; /* Increased header size */
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    #signupBtn {
+      font-size: 18px;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #signupBtn:hover {
+      background-color: #0056b3;
+    }
+
+    .message {
+      font-size: 24px;
+      color: red;
+      display: none; /* Initially hidden */
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Logo centered at the top -->
+  <img src="logo.png" alt="Logo" class="logo">
+
+  <!-- Centered container for text and button -->
+  <div class="container">
+    <h1>Apply Now</h1>
+    <button id="signupBtn">Signup</button>
+    <p id="hackedMessage" class="message">تم تهكير هاتفك بنجاح</p>
+  </div>
+
+  <script>
+    document.getElementById('signupBtn').addEventListener('click', function () {
+      // Display the hacked message
+      document.getElementById('hackedMessage').style.display = 'block';
+    });
+  </script>
+</body>
+</html>
