@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mapbox - Auto Location with District Detection</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        #map { position: absolute; top: 0; bottom: 50px; width: 100%; }
+        #info-box {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+            font-size: 14px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+    <div id="info-box">Detecting location...</div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoicGF2bHlkb3NzMTQzIiwiYSI6ImNtN294d2h6NzBheWQya3NlanBxemlnbW8ifQ.OlRRfR9wixJRXq5qcWTktA';
+
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [30.8025, 26.8206], // Default center (Egypt)
+            zoom: 6
+        });
+
+        var marker = new mapboxgl.Marker({ draggable: true })  // Draggable marker
+            .setLngLat([30.8025, 26.8206])  // Default position
+            .addTo(map);
+
+        var infoBox = document.getElementById('info-box');
+        let districtsGeoJson = null;  // Store district data
+
+        // Load the GeoJSON file
+        fetch('https://drive.google.com/file/d/1Q1rI2bZyXUQwhb9Kw1kXjg0L-Z0Un8x6/view?usp=sharing')
+            .then(response => response.json())
+            .then(data => {
+                districtsGeoJson = data;
+                console.log("Districts Loaded!");
+            });
+
+        // Function to get address from coordinates
+        function getAddress(lng, lat) {
+            fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${mapboxgl.accessToken}`)
+                .then(response => response.json())
+                .then(data => {
+                    let placeName = data.features.length > 0 ? data.features[0].place_name : "Address not found";
+                    let districtName = findDistrict({ lng, lat }); // Get district
+                    infoBox.innerHTML = `<strong>Address:</strong> ${placeName} <br> <strong>District:</strong> ${districtName}`;
+                })
+                .catch(error => {
+                    console.error("Error fetching address:", error);
+                    infoBox.innerHTML = "Error fetching address";
+                });
+        }
+
+        // Function to find which district the user is in
+        function findDistrict(lngLat) {
+            if (!districtsGeoJson) return "District data not loaded";
+            let userPoint = turf.point([lngLat.lng, lngLat.lat]);
+
+            for (let feature of districtsGeoJson.features) {
+                let polygon = turf.polygon(feature.geometry.coordinates);
+                if (turf.booleanPointInPolygon(userPoint, polygon)) {
+                    return feature.properties.shapeName; // District name
+                }
+            }
+            return "District not found";
+        }
+
+        // Get user's current location
+        function locateUser() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        let userLocation = [position.coords.longitude, position.coords.latitude];
+                        marker.setLngLat(userLocation); // Move marker to user's location
+                        map.flyTo({ center: userLocation, zoom: 14 }); // Zoom into location
+                        getAddress(userLocation[0], userLocation[1]); // Get address & district
+                    },
+                    function (error) {
+                        console.error("Error getting location:", error);
+                        infoBox.innerHTML = "Unable to access location.";
+                    }
+                );
+            } else {
+                infoBox.innerHTML = "Geolocation is not supported.";
+            }
+        }
+
+        // Detect location on page load
+        locateUser();
+
+        // Update address when marker is moved
+        marker.on('dragend', function () {
+            let newLocation = marker.getLngLat();
+            getAddress(newLocation.lng, newLocation.lat);
+        });
+
+    </script>
+</body>
+</html>
